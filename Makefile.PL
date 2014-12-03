@@ -12,6 +12,9 @@ use ExtUtils::MakeMaker 6.30;
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Generate data structure convenient for producing CLI help/usage",
   "AUTHOR" => "perlancar <perlancar\@cpan.org>",
+  "BUILD_REQUIRES" => {
+    "Perinci::Examples::CLI" => "0.44"
+  },
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
   },
@@ -33,10 +36,9 @@ my %WriteMakefileArgs = (
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
-    "Perinci::Examples::CLI" => "0.42",
     "Test::More" => 0
   },
-  "VERSION" => "0.11",
+  "VERSION" => "0.12",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -48,7 +50,7 @@ my %FallbackPrereqs = (
   "File::Spec" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
-  "Perinci::Examples::CLI" => "0.42",
+  "Perinci::Examples::CLI" => "0.44",
   "Perinci::Object" => 0,
   "Perinci::Sub::ConvertArgs::Argv" => 0,
   "Perinci::Sub::GetArgs::Argv" => "0.59",

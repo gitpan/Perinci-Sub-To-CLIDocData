@@ -14,6 +14,11 @@
    },
    "name" : "Perinci-Sub-To-CLIDocData",
    "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Perinci::Examples::CLI" : "0.44"
+         }
+      },
       "configure" : {
          "requires" : {
             "ExtUtils::MakeMaker" : "6.30"
@@ -45,7 +50,6 @@
             "File::Spec" : "0",
             "IO::Handle" : "0",
             "IPC::Open3" : "0",
-            "Perinci::Examples::CLI" : "0.42",
             "Test::More" : "0"
          }
       }
@@ -62,12 +66,17 @@
          "web" : "https://github.com/perlancar/perl-Perinci-Sub-To-CLIOptSpec"
       }
    },
-   "version" : "0.11",
+   "version" : "0.12",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.018002"
       },
       "plugins" : [
+         {
+            "class" : "Dist::Zilla::Plugin::InsertCodeResult",
+            "name" : "InsertCodeResult",
+            "version" : "0.03"
+         },
          {
             "class" : "Dist::Zilla::Plugin::GatherDir",
             "name" : "@Author::PERLANCAR/@Filter/GatherDir",
@@ -245,7 +254,7 @@
                      {
                         "class" : "Pod::Weaver::Plugin::Rinci",
                         "name" : "@Author::PERLANCAR/Rinci",
-                        "version" : "0.19"
+                        "version" : "0.20"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Leftovers",
@@ -353,6 +362,17 @@
             "class" : "Dist::Zilla::Plugin::Test::Rinci",
             "name" : "@Author::PERLANCAR/Test::Rinci",
             "version" : "0.01"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Prereqs",
+            "config" : {
+               "Dist::Zilla::Plugin::Prereqs" : {
+                  "phase" : "build",
+                  "type" : "requires"
+               }
+            },
+            "name" : "BuildRequires",
+            "version" : "5.019"
          },
          {
             "class" : "Dist::Zilla::Plugin::Prereqs",

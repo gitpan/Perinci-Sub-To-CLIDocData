@@ -3,13 +3,148 @@ NAME
     producing CLI help/usage
 
 VERSION
-    This document describes version 0.11 of Perinci::Sub::To::CLIDocData
+    This document describes version 0.12 of Perinci::Sub::To::CLIDocData
     (from Perl distribution Perinci-Sub-To-CLIDocData), released on
-    2014-12-02.
+    2014-12-03.
 
 SYNOPSIS
      use Perinci::Sub::To::CLIDocData qw(gen_cli_doc_data_from_meta);
      my $clidocdata = gen_cli_doc_data_from_meta(meta => $meta);
+
+    Sample function metadata ($meta):
+
+     {
+       args => {
+         bool1 => {
+                    cmdline_aliases => { z => { summary => "This is summary for option `-z`" } },
+                    schema => "bool",
+                    summary => "Another bool option",
+                    tags => ["category:cat1"],
+                  },
+         flag1 => {
+                    cmdline_aliases => { f => {} },
+                    schema => ["bool", "is", 1],
+                    tags => ["category:cat1"],
+                  },
+         str1  => {
+                    pos => 0,
+                    req => 1,
+                    schema => "str*",
+                    summary => "A required option as well as positional argument",
+                  },
+       },
+       examples => [
+         {
+           argv    => ["a value", "--bool1"],
+           summary => "Summary for an example",
+           test    => 0,
+         },
+       ],
+       summary => "Function summary",
+       v => 1.1,
+     }
+
+    Sample result:
+
+     do {
+       my $a = [
+         200,
+         "OK",
+         {
+           examples => [
+             {
+               category     => "Examples",
+               cmdline      => "[[prog]] 'a value' --bool1",
+               description  => undef,
+               example_spec => {
+                                 argv    => ["'a value'", "--bool1"],
+                                 summary => "Summary for an example",
+                                 test    => 0,
+                               },
+               raw_category => "",
+               summary      => "Summary for an example",
+             },
+           ],
+           opts => {
+             "--bool1" => {
+               arg          => "bool1",
+               arg_spec     => {
+                                 cmdline_aliases => { z => { summary => "This is summary for option `-z`" } },
+                                 schema => ["bool", {}, {}],
+                                 summary => "Another bool option",
+                                 tags => ["category:cat1"],
+                               },
+               category     => "Cat1 options",
+               description  => undef,
+               fqarg        => "bool1",
+               opt_parsed   => { opts => ["bool1"] },
+               orig_opt     => "bool1",
+               raw_category => "cat1",
+               summary      => "Another bool option",
+               tags         => 'fix',
+             },
+             "--flag1, -f" => {
+               arg          => "flag1",
+               arg_spec     => {
+                                 cmdline_aliases => { f => {} },
+                                 schema => ["bool", { is => 1 }, {}],
+                                 tags => ["category:cat1"],
+                               },
+               category     => "Cat1 options",
+               description  => undef,
+               fqarg        => "flag1",
+               opt_parsed   => { opts => ["flag1"] },
+               orig_opt     => "flag1",
+               raw_category => "cat1",
+               summary      => undef,
+               tags         => 'fix',
+             },
+             "--str1=s*" => {
+               arg => "str1",
+               arg_spec => {
+                 pos => 0,
+                 req => 1,
+                 schema => ["str", { req => 1 }, {}],
+                 summary => "A required option as well as positional argument",
+               },
+               category => "General options",
+               description => undef,
+               fqarg => "str1",
+               opt_parsed => { desttype => "", opts => ["str1"], type => "s" },
+               orig_opt => "str1=s",
+               pos => 0,
+               raw_category => "",
+               req => 1,
+               summary => "A required option as well as positional argument",
+             },
+             "-z" => {
+               alias_for    => "bool1",
+               arg          => "bool1",
+               arg_spec     => 'fix',
+               category     => "Cat1 options",
+               description  => undef,
+               fqarg        => "bool1",
+               is_alias     => 1,
+               main_opt     => "--bool1",
+               opt_parsed   => { opts => ["z"] },
+               orig_opt     => "z",
+               raw_category => "cat1",
+               summary      => "This is summary for option `-z`",
+               tags         => 'fix',
+             },
+           },
+           usage_line => "[[prog]] [options] <str1>",
+         },
+       ];
+       $a->[2]{opts}{"--bool1"}{tags} = $a->[2]{opts}{"--bool1"}{arg_spec}{tags};
+       $a->[2]{opts}{"--flag1, -f"}{tags} = $a->[2]{opts}{"--flag1, -f"}{arg_spec}{tags};
+       $a->[2]{opts}{"-z"}{arg_spec} = $a->[2]{opts}{"--bool1"}{arg_spec};
+       $a->[2]{opts}{"-z"}{tags} = $a->[2]{opts}{"--bool1"}{arg_spec}{tags};
+       $a;
+     }
+
+    For a more complete sample, see function metadata for demo_cli_opts in
+    Perinci::Examples::CLI.
 
 FUNCTIONS
   gen_cli_doc_data_from_meta(%args) -> [status, msg, result, meta]
