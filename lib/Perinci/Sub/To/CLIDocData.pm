@@ -1,7 +1,7 @@
 package Perinci::Sub::To::CLIDocData;
 
-our $DATE = '2014-12-03'; # DATE
-our $VERSION = '0.12'; # VERSION
+our $DATE = '2014-12-04'; # DATE
+our $VERSION = '0.13'; # VERSION
 
 use 5.010001;
 use strict;
@@ -188,6 +188,7 @@ sub gen_cli_doc_data_from_meta {
                     last;
                 }
             }
+            $pos++;
             next unless defined($arg);
             if ($arg_spec->{req}) {
                 push @args, "<$arg>";
@@ -196,7 +197,6 @@ sub gen_cli_doc_data_from_meta {
             }
             push @args, "..." if $arg_spec->{greedy};
             delete $args_prop{$arg};
-            $pos++;
         }
         unshift @args, "[options]" if keys(%args_prop) || keys(%$common_opts); # XXX translatable?
         $clidocdata->{usage_line} = "[[prog]]".
@@ -433,7 +433,7 @@ Perinci::Sub::To::CLIDocData - Generate data structure convenient for producing 
 
 =head1 VERSION
 
-This document describes version 0.12 of Perinci::Sub::To::CLIDocData (from Perl distribution Perinci-Sub-To-CLIDocData), released on 2014-12-03.
+This document describes version 0.13 of Perinci::Sub::To::CLIDocData (from Perl distribution Perinci-Sub-To-CLIDocData), released on 2014-12-04.
 
 =head1 SYNOPSIS
 
@@ -572,7 +572,7 @@ Sample result:
    $a;
  }
 
-For a more complete sample, see function metadata for L<demo_cli_opts> in
+For a more complete sample, see function metadata for C<demo_cli_opts> in
 L<Perinci::Examples::CLI>.
 
 =head1 FUNCTIONS
