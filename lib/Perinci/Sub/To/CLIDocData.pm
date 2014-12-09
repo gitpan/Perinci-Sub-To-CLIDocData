@@ -1,7 +1,7 @@
 package Perinci::Sub::To::CLIDocData;
 
-our $DATE = '2014-12-04'; # DATE
-our $VERSION = '0.13'; # VERSION
+our $DATE = '2014-12-09'; # DATE
+our $VERSION = '0.14'; # VERSION
 
 use 5.010001;
 use strict;
@@ -237,13 +237,14 @@ sub gen_cli_doc_data_from_meta {
 
             if ($ospec->{is_alias} || defined($ospec->{arg})) {
                 my $arg_spec;
+                my $alias_spec;
                 my $opt;
 
                 if ($ospec->{is_alias}) {
                     # non-groupable alias
 
                     $arg_spec = $args_prop->{ $ospec->{arg} };
-                    my $alias_spec = $arg_spec->{cmdline_aliases}{$ospec->{alias}};
+                    $alias_spec = $arg_spec->{cmdline_aliases}{$ospec->{alias}};
                     my $rimeta = rimeta($alias_spec);
                     $ok = _fmt_opt($arg_spec, $ospec);
                     $opt = {
@@ -314,6 +315,7 @@ sub gen_cli_doc_data_from_meta {
                 }
 
                 $opt->{arg_spec} = $arg_spec;
+                $opt->{alias_spec} = $alias_spec if $alias_spec;
 
                 # include keys from func.specmeta
                 for (qw/arg fqarg is_base64 is_json is_yaml/) {
@@ -334,12 +336,14 @@ sub gen_cli_doc_data_from_meta {
                 # option from common_opts
 
                 $ok = _fmt_opt($common_opts, $ospec);
-                my $rimeta = rimeta($common_opts->{$ospec->{common_opt}});
+                my $co = $common_opts->{$ospec->{common_opt}};
+                my $rimeta = rimeta($co);
                 $opts{$ok} = {
                     opt_parsed => $ospec->{parsed},
                     orig_opt => $k,
                     category => $has_cats ? "General options" : "Options", # XXX translatable?
                     summary => $rimeta->langprop({lang=>$lang}, 'summary'),
+                    (schema => $co->{schema}) x !!$co->{schema},
                     description =>
                         $rimeta->langprop({lang=>$lang}, 'description'),
                 };
@@ -433,7 +437,7 @@ Perinci::Sub::To::CLIDocData - Generate data structure convenient for producing 
 
 =head1 VERSION
 
-This document describes version 0.13 of Perinci::Sub::To::CLIDocData (from Perl distribution Perinci-Sub-To-CLIDocData), released on 2014-12-04.
+This document describes version 0.14 of Perinci::Sub::To::CLIDocData (from Perl distribution Perinci-Sub-To-CLIDocData), released on 2014-12-09.
 
 =head1 SYNOPSIS
 
@@ -548,6 +552,7 @@ Sample result:
          },
          "-z" => {
            alias_for    => "bool1",
+           alias_spec   => 'fix',
            arg          => "bool1",
            arg_spec     => 'fix',
            category     => "Cat1 options",
@@ -567,6 +572,7 @@ Sample result:
    ];
    $a->[2]{opts}{"--bool1"}{tags} = $a->[2]{opts}{"--bool1"}{arg_spec}{tags};
    $a->[2]{opts}{"--flag1, -f"}{tags} = $a->[2]{opts}{"--flag1, -f"}{arg_spec}{tags};
+   $a->[2]{opts}{"-z"}{alias_spec} = $a->[2]{opts}{"--bool1"}{arg_spec}{cmdline_aliases}{z};
    $a->[2]{opts}{"-z"}{arg_spec} = $a->[2]{opts}{"--bool1"}{arg_spec};
    $a->[2]{opts}{"-z"}{tags} = $a->[2]{opts}{"--bool1"}{arg_spec}{tags};
    $a;

@@ -3,9 +3,9 @@ NAME
     producing CLI help/usage
 
 VERSION
-    This document describes version 0.13 of Perinci::Sub::To::CLIDocData
+    This document describes version 0.14 of Perinci::Sub::To::CLIDocData
     (from Perl distribution Perinci-Sub-To-CLIDocData), released on
-    2014-12-04.
+    2014-12-09.
 
 SYNOPSIS
      use Perinci::Sub::To::CLIDocData qw(gen_cli_doc_data_from_meta);
@@ -119,6 +119,7 @@ SYNOPSIS
              },
              "-z" => {
                alias_for    => "bool1",
+               alias_spec   => 'fix',
                arg          => "bool1",
                arg_spec     => 'fix',
                category     => "Cat1 options",
@@ -138,6 +139,7 @@ SYNOPSIS
        ];
        $a->[2]{opts}{"--bool1"}{tags} = $a->[2]{opts}{"--bool1"}{arg_spec}{tags};
        $a->[2]{opts}{"--flag1, -f"}{tags} = $a->[2]{opts}{"--flag1, -f"}{arg_spec}{tags};
+       $a->[2]{opts}{"-z"}{alias_spec} = $a->[2]{opts}{"--bool1"}{arg_spec}{cmdline_aliases}{z};
        $a->[2]{opts}{"-z"}{arg_spec} = $a->[2]{opts}{"--bool1"}{arg_spec};
        $a->[2]{opts}{"-z"}{tags} = $a->[2]{opts}{"--bool1"}{arg_spec}{tags};
        $a;

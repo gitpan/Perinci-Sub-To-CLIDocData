@@ -66,7 +66,7 @@
          "web" : "https://github.com/perlancar/perl-Perinci-Sub-To-CLIOptSpec"
       }
    },
-   "version" : "0.13",
+   "version" : "0.14",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.018002"
@@ -196,7 +196,7 @@
          {
             "class" : "Dist::Zilla::Plugin::OurDate",
             "name" : "@Author::PERLANCAR/OurDate",
-            "version" : "0.01"
+            "version" : "0.02"
          },
          {
             "class" : "Dist::Zilla::Plugin::PodWeaver",
@@ -265,7 +265,7 @@
                      {
                         "class" : "Pod::Weaver::Plugin::Rinci",
                         "name" : "@Author::PERLANCAR/Rinci",
-                        "version" : "0.20"
+                        "version" : "0.22"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Leftovers",
@@ -280,12 +280,12 @@
                      {
                         "class" : "Pod::Weaver::Section::Completion::GetoptLongComplete",
                         "name" : "@Author::PERLANCAR/Completion::GetoptLongComplete",
-                        "version" : "0.04"
+                        "version" : "0.05"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Completion::PerinciCmdLine",
                         "name" : "@Author::PERLANCAR/Completion::PerinciCmdLine",
-                        "version" : "0.07"
+                        "version" : "0.08"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Homepage::DefaultCPAN",
